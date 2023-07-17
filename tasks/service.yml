@@ -1,0 +1,21 @@
+---
+
+- name: Service tasks
+  when: not ansible_check_mode
+  tags:
+    - apparmor_service
+    - apparmor
+  block:
+    - name: Manage apparmor service
+      ansible.builtin.service:
+        name: "{{ apparmor_service_name }}"
+        state: "{{ apparmor_service_ensure }}"
+        enabled: "{{ apparmor_service_enable }}"
+      when: apparmor_grub_config is defined and not apparmor_grub_config
+
+    - name: Manage apparmor service
+      ansible.builtin.service:
+        name: "{{ apparmor_service_name }}"
+        state: stopped
+        enabled: false
+      when: apparmor_grub_config is defined and apparmor_grub_config

@@ -1,0 +1,25 @@
+---
+
+- name: Apparmor tasks
+  when: ansible_os_family == 'Debian'
+  tags:
+    - apparmor_install
+    - apparmor_config
+    - apparmor_service
+    - apparmor
+  block:
+  - name: Set dependency variables
+    ansible.builtin.include_vars: "{{ item }}"
+    loop:
+      - "{{ ansible_os_family }}.yml"
+  - name: Install tasks
+    ansible.builtin.import_tasks: install.yml
+  - name: Config tasks
+    ansible.builtin.import_tasks: config.yml
+  - name: Service tasks
+    ansible.builtin.import_tasks: service.yml
+  rescue:
+    - name: Print Error
+      ansible.builtin.debug:
+        msg: "Unsupport platform or error occurred due to some reason."
+      failed_when: true

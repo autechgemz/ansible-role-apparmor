@@ -1,0 +1,8 @@
+---
+
+apparmor_package_name:
+  - apparmor
+  - apparmor-profiles
+  - apparmor-utils
+
+apparmor_service_name: 'apparmor'

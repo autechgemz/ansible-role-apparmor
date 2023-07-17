@@ -1,0 +1,14 @@
+---
+
+- name: Install tasks
+  become: true
+  tags:
+    - apparmor_install
+    - apparmor
+  block:
+    - name: Install apparmor packages
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.apt:
+        name: "{{ apparmor_package_name }}"
+        state: "{{ apparmor_package_ensure }}"
+        update_cache: true

@@ -1,0 +1,42 @@
+---
+
+- name: Config tasks
+  when: apparmor_grub_config is defined and apparmor_grub_config
+  become: true
+  tags:
+    - apparmor_config
+    - apparmor
+  block:
+    - name: Enable apparmor flag
+      when: apparmor_service_enable is defined and apparmor_service_enable
+      ansible.builtin.template:
+        src: enable-apparmor.cfg
+        dest: /etc/default/grub.d/enable-apparmor.cfg
+        owner: root
+        group: root
+        mode: 0644
+      notify: Update grub
+
+    - name: Enable apparmor flag
+      when: apparmor_service_enable is defined and apparmor_service_enable
+      ansible.builtin.file:
+        path: /etc/default/grub.d/disable-apparmor.cfg
+        state: absent
+      notify: Update grub
+
+    - name: Disable apparmor flag
+      when: apparmor_service_enable is defined and not apparmor_service_enable
+      ansible.builtin.template:
+        src: disable-apparmor.cfg
+        dest: /etc/default/grub.d/disable-apparmor.cfg
+        owner: root
+        group: root
+        mode: 0644
+      notify: Update grub
+
+    - name: Disable apparmor flag
+      when: apparmor_service_enable is defined and not apparmor_service_enable
+      ansible.builtin.file:
+        path: /etc/default/grub.d/enable-apparmor.cfg
+        state: absent
+      notify: Update grub
