@@ -9,7 +9,7 @@
   block:
     - name: Manage apparmor service pre-reload
       ansible.builtin.command:
-        command: /lib/apparmor/apparmor.systemd reload
+        cmd: /lib/apparmor/apparmor.systemd reload
       when: apparmor_grub_config is defined and not apparmor_grub_config
       ignore_errors: true
       failed_when: true
