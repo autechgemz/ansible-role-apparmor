@@ -4,9 +4,12 @@
   ansible.builtin.shell: >
     update-grub
   when: not ansible_check_mode
+  become: true
 
 - name: Restart service
   ansible.builtin.systemd:
     name: "{{ apparmor_service_name }}"
     state: restarted
   when: not ansible_check_mode
+  become: true
+

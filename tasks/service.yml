@@ -2,6 +2,7 @@
 
 - name: Service tasks
   when: not ansible_check_mode
+  become: true
   tags:
     - apparmor_service
     - apparmor
