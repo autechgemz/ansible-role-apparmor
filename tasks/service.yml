@@ -12,7 +12,8 @@
         cmd: /lib/apparmor/apparmor.systemd reload
       when: apparmor_grub_config is defined and not apparmor_grub_config
       ignore_errors: true
-      failed_when: true
+      failed_when: false
+      changed_when: false
 
     - name: Manage apparmor service
       ansible.builtin.service:
