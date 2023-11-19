@@ -6,7 +6,7 @@
   when: not ansible_check_mode
 
 - name: Restart service
-  ansible.builtin.systemd:
-    name: "{{ apparmor_service_name }}"
-    state: restarted
+  ansible.builtin.command:
+    cmd: /lib/apparmor/apparmor.systemd reload
   when: not ansible_check_mode
+
